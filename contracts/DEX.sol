@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/token/ECR20/IECR20.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract DEX 
 {
@@ -10,7 +10,7 @@ contract DEX
     uint price;
     address owner;
 
-    constructor(ERC20 _token,uint price){
+    constructor(IERC20 _token,uint _price){
         associatedToken = _token;
         owner = msg.sender;
         price = _price;
@@ -23,7 +23,7 @@ contract DEX
 
     function sell() external isOwner
     {
-        unit allowance = associatedToken.allowance(msg.sender,address(this));
+        uint allowance = associatedToken.allowance(msg.sender,address(this));
         require(allowance > 0 ,"You must allow this contract access to least one token");
 
         bool sent = associatedToken.transferFrom(msg.sender,address(this),allowance);
@@ -38,17 +38,17 @@ contract DEX
 
     function withdrawFunds() external isOwner
     {
-        (bool, sent) = payable(msg.sender).call{value: address(this).balance}("");
+        (bool sent,) = payable(msg.sender).call{value: address(this).balance}("");
 
         require(sent);
     }
 
-    function getPrice(uint numTokens) public view returns (uint)
+    function getPrice(uint256 numTokens) public view returns (uint256)
     {
-        return numToken * price;
+        return numTokens * price;
     }
 
-    function buy(uint numTokens) external payable 
+    function buy(uint256 numTokens) external payable 
     {
         require(numTokens <= getTokenBalance(),"not enough Tokens");
         uint tokenPrice = getPrice(numTokens);
@@ -57,7 +57,7 @@ contract DEX
         associatedToken.transfer(msg.sender,numTokens);
     }
 
-    function getTokenBalance() external view returns(uint)
+    function getTokenBalance() public view returns(uint256)
     {
         return associatedToken.balanceOf(address(this));
     }
