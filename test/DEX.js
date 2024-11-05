@@ -53,14 +53,43 @@ describe('DEX', () => {
     })
 
     describe ("buy", () => {
-        
+        it("should allow user to buy tokens", async () => {
+            await expect(dex.connect(addr1).buy(10,{value : 1000}))
+            .to.changeTokenBalances(token,[dex.target,addr1.address],[-10,10])
+        })
+
+        it("should not allow user to buy invalid amount of tokens", async () => {
+            await expect(dex.connect(addr1).buy(91,{value : 9100}))
+            .to.be.reverted;
+        })
+
+        it("should not allow user to buy invalid value", async () => {
+            await expect(dex.connect(addr1).buy(5,{value : 510}))
+            .to.be.reverted;
+        })
     })
 
-    describe ("withdraw tokens", () => {
-        
+    describe ("withdraw tokens", async() => {
+        it("should not allow non-owner to withdraw of tokens", async () => {
+            await expect(dex.connect(addr1).withdrawTokens())
+            .to.be.reverted;
+        })
+
+        it("should allow owner to withdraw of tokens", async () => {
+            await expect(dex.withdrawTokens())
+            .to.changeTokenBalances(token,[dex.target,owner.address],[-90,90]);
+        })
     })
 
-    describe ("withdraw funds", () => {
-        
+    describe ("withdraw funds", async() => {
+        it("should allow owner to withdraw funds", async () => {
+            await expect(dex.withdrawFunds())
+            .to.changeEtherBalances([dex.target,owner.address],[-1000,1000]);
+        })
+
+        it("should not allow non-owner to withdraw funds", async () => {
+            await expect(dex.connect(addr1).withdrawFunds())
+            .to.be.reverted;
+        })
     })
 })
