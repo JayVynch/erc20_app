@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/tvynch/Sites/blockchainDev/erc20_token/contracts/DEX.sol": {
-      "lastModificationDate": 1729841415934,
-      "contentHash": "099fa318e8cebe7b8399d2639f883c68",
+      "lastModificationDate": 1730749269730,
+      "contentHash": "0451ab507a0eb34a1b5ae8405968f90a",
       "sourceName": "contracts/DEX.sol",
       "solcConfig": {
         "version": "0.8.27",
@@ -229,8 +229,8 @@
       ]
     },
     "/Users/tvynch/Sites/blockchainDev/erc20_token/contracts/Token.sol": {
-      "lastModificationDate": 1729840687338,
-      "contentHash": "cc0acabb6a5f202ea3e40611129ee6eb",
+      "lastModificationDate": 1730286274888,
+      "contentHash": "f5ddaf7f42ca008f81f683256f6944ba",
       "sourceName": "contracts/Token.sol",
       "solcConfig": {
         "version": "0.8.27",

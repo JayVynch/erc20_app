@@ -7,10 +7,10 @@ contract DEX
 {
     IERC20 public associatedToken;
 
-    uint price;
+    uint256 price;
     address owner;
 
-    constructor(IERC20 _token,uint _price){
+    constructor(IERC20 _token,uint256 _price){
         associatedToken = _token;
         owner = msg.sender;
         price = _price;
@@ -23,7 +23,7 @@ contract DEX
 
     function sell() external isOwner
     {
-        uint allowance = associatedToken.allowance(msg.sender,address(this));
+        uint256 allowance = associatedToken.allowance(msg.sender,address(this));
         require(allowance > 0 ,"You must allow this contract access to least one token");
 
         bool sent = associatedToken.transferFrom(msg.sender,address(this),allowance);
@@ -32,7 +32,7 @@ contract DEX
 
     function withdrawTokens() external isOwner
     {
-        uint balance = associatedToken.balanceOf(address(this));
+        uint256 balance = associatedToken.balanceOf(address(this));
         associatedToken.transfer(msg.sender,balance);
     }
 
@@ -43,6 +43,16 @@ contract DEX
         require(sent);
     }
 
+    function currentAddress() public view returns (address)
+    {
+        return address(this);
+    }
+
+    function currentPrice() public view returns (uint256)
+    {
+        return price;
+    }
+
     function getPrice(uint256 numTokens) public view returns (uint256)
     {
         return numTokens * price;
@@ -51,7 +61,7 @@ contract DEX
     function buy(uint256 numTokens) external payable 
     {
         require(numTokens <= getTokenBalance(),"not enough Tokens");
-        uint tokenPrice = getPrice(numTokens);
+        uint256 tokenPrice = getPrice(numTokens);
 
         require(msg.value == tokenPrice,"Invalid value sent");
         associatedToken.transfer(msg.sender,numTokens);

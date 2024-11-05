@@ -5,7 +5,8 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract Token is ERC20
 {
-    constructor(uint initialsupply) ERC20("Vynch","VYN"){
+    constructor(uint256 initialsupply) ERC20("VynchCoin","VYN"){
         _mint(msg.sender,initialsupply);
     }
+
 }
