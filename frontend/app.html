@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>DEX ERC-20</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body>
+        <div class="bg-white py-24 sm:py-32">
+            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+                <div class="mx-auto max-w-4xl text-center">
+                    <p class="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">DEX App</p>
+                </div>
+                <p class="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">Vynchies</p>
+
+                <div class="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+                    <div class="rounded-3xl p-8 xl:p-10 ring-1 ring-gray-200">
+                        <div class="flex items-center justify-between gap-x-4">
+                            <h3 id="tier-freelancer" class="text-lg font-semibold leading-8 text-gray-900">Token Price</h3>
+                        </div>
+                        <p class="mt-4 text-sm leading-6 text-gray-600">Get Token Price</p>
+                        <p class="mt-6 flex items-baseline gap-x-1">
+                            <!-- Price, update based on frequency toggle state -->
+                            <span class="text-4xl font-bold tracking-tight text-gray-900" id="token_price"></span>
+                        </p>
+                        <a href="#" aria-describedby="tier-freelancer" class="mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300" onclick="updatePrice()">Update Price</a>
+                    </div>
+
+                    <div class="rounded-3xl p-8 xl:p-10 ring-2 ring-indigo-600">
+
+                        <div class="flex items-center justify-between gap-x-4">
+                            <h3 id="tier-startup" class="text-lg font-semibold leading-8 text-indigo-600">Token Available</h3>
+                        </div>
+                        <p class="mt-4 text-sm leading-6 text-gray-600">Get Token Available</p>
+                        <p class="mt-6 flex items-baseline gap-x-1">
+                            <!-- Price, update based on frequency toggle state -->
+                            <span class="text-4xl font-bold tracking-tight text-gray-900" id="tokens_available"></span>
+                        </p>
+                        <a href="#" aria-describedby="tier-startup" class="mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 bg-indigo-600 text-white shadow-sm hover:bg-indigo-500" id="tokens_available_btn" onclick="getTokensAvailable()">Update Tokens Available</a>
+                    </div>
+
+                    <div class="rounded-3xl p-8 xl:p-10 ring-1 ring-gray-200">
+                        <div class="flex items-center justify-between gap-x-4">
+                            <h3 id="tier-enterprise" class="text-lg font-semibold leading-8 text-gray-900">My Token Balance</h3>
+                        </div>
+                        <p class="mt-4 text-sm leading-6 text-gray-600">Get my token Balance</p>
+                        <p class="mt-6 flex items-baseline gap-x-1">
+                            <!-- Price, update based on frequency toggle state -->
+                            <span class="text-4xl font-bold tracking-tight text-gray-900" id="get_token_balance"></span>
+                        </p>
+                        <a href="#" aria-describedby="tier-enterprise" class="mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300" id="get_token_balance_btn" onclick="getMyTokenBalance()">Update My token</a>
+                    </div>
+                </div>
+
+                <hr class="my-8">
+
+                <div class="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+                    <div class="rounded-3xl p-8 xl:p-10 ring-1 ring-gray-200">
+                        <div class="flex items-center justify-between gap-x-4">
+                            <h3 id="tier-enterprise" class="text-lg font-semibold leading-8 text-gray-900">Grant Token Access</h3>
+                        </div>
+                        <p class="mt-4 text-sm leading-6 text-gray-600">Grank User token access</p>
+                        <p class="mt-6 flex items-baseline gap-x-1">
+                            <!-- Price, update based on frequency toggle state -->
+                            <input type="number" min="0" id="token_grant" class="block w-full min-w-0 flex-1 rounded-none rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2" id="token_grant">
+                        </p>
+                        <a href="#" aria-describedby="tier-enterprise" class="mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300" id="get_token_balance_btn" onclick="grantAccess()">Grant</a>
+                    </div>
+
+                    <div class="rounded-3xl p-8 xl:p-10 ring-1 ring-gray-200">
+                        <div class="flex items-center justify-between gap-x-4">
+                            <h3 id="tier-freelancer" class="text-lg font-semibold leading-8 text-gray-900">Sell Token</h3>
+                        </div>
+                        <p class="mt-4 text-sm leading-6 text-gray-600">Sell Available Token</p>
+                        <p class="mt-6 flex items-baseline gap-x-1">
+                            <!-- Price, update based on frequency toggle state -->
+                            <span class="text-4xl font-bold tracking-tight text-gray-900"></span>
+                        </p>
+                        <a href="#" aria-describedby="tier-freelancer" class="mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300" onclick="sellToken()">Sell</a>
+                    </div>
+                </div>
+
+                <hr class="my-8">
+
+                <div class="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-">
+                    <div class="w-full">user control</div>
+
+                    <div class="rounded-3xl p-8 xl:p-10 ring-2 w-1/2 ring-indigo-600">
+
+                        <div class="flex items-center justify-between gap-x-4">
+                            <h3 id="tier-startup" class="text-lg font-semibold leading-8 text-indigo-600">Buy Token</h3>
+                        </div>
+                        <p class="mt-4 text-sm leading-6 text-gray-600"></p>
+                        <p class="mt-6 flex items-baseline gap-x-1">
+                            <input class="block w-full min-w-0 flex-1 rounded-none rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2" type="number" min="0" name="token_purchased" placeholder="Enter number of Tokens" id="tokenToBuy">
+                        </p>
+                        <a href="#" aria-describedby="tier-startup" class="mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 bg-indigo-600 text-white shadow-sm hover:bg-indigo-500" onclick="buyTokens()">Buy Token</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+          
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js" integrity="sha512-V3xRGsQMQ8CG4l2gVN44TCDmNY5cdlxbSvejrgmWxcLKHft0Q3XQDbeuJ9aot14mpNuRWGtI//WKraedDGNZ+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+        <script src="script.js" type="text/javascript"></script>
+    </body>
+</html>
